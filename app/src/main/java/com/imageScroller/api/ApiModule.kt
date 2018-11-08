@@ -35,20 +35,22 @@ object ApiModule {
                 it.proceed(it.request().newBuilder().header("Authorization", credentials).build())
             }
         }
-        return Retrofit.Builder().apply {
+        return Retrofit.Builder().run {
             baseUrl(API_URL)
             addConverterFactory(GsonConverterFactory.create(gson))
             addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             client(okHttpBuilder.build())
-        }.build()
+            build()
+        }
     }
 
     @JvmStatic
     @Singleton
     @Provides
-    fun provideGson() = GsonBuilder().apply {
+    fun provideGson() = GsonBuilder().run {
         setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-    }.create()!!
+        create()
+    }
 
     @JvmStatic
     @Singleton
